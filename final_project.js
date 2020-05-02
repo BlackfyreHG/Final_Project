@@ -1,5 +1,5 @@
 
-var makePie = function(datas)
+var drawPie = function(datas,width,height)
 {
     var screen = {width:width, height:height};
     
@@ -11,12 +11,14 @@ var makePie = function(datas)
         height:screen.height-margins.top-margins.bottom,
     }
     
-    var color = d3.scaleOrdinal(d3.schemeCatagory10);
+    //var color = d3.scaleOrdinal(d3.schemeCatagory10);
+     var color = d3.scaleOrdinal(d3.schemeDark2);
+
     var pie = d3.pie();
-    var w = 300;
-    var h = 300;
-    var outer_r = w/2;
-    var inner_r = w/4;
+    var w = graph.width;
+    var h = graph.height;
+    var outer_r = h/2;
+    var inner_r = 0;
     
     var arc = d3.arc()
         .innerRadius(inner_r)
@@ -24,15 +26,19 @@ var makePie = function(datas)
     
     var target = d3.select("body")
         .append("svg")
-            .attr("width",w)
-            .attr("height",h);
+            .attr("width",graph.width)
+            .attr("height",graph.height);
     
+    test_data = [5,10,15,20,60];
+    console.log("datas: "+datas);
+    /*values = d3.map(datas,function(data){return data.value;});
+    console.log("values: "+values);*/
     var arcs = target.selectAll("g.arc") //binds data to the wedges. generate pie-effied data
-        .data(pie(datas))
+        .data(pie(test_data))
         .enter()
         .append("g")
         .attr("class","arc")
-        .attr("transform","translate("+outer_r+","+inner_r+")");
+        .attr("transform","translate("+2*outer_r+","+graph.height/2+")");
     
     arcs.append("path")
         .attr("fill",function(data,i){
@@ -41,11 +47,14 @@ var makePie = function(datas)
         .attr("d",arc);
 }
 
+//var emissionsPromise = d3.json("https://blackfyrehg.github.io/Final_Project/emissions_by_sector.json");
 var emissionsPromise = d3.json("emissions_by_sector.json");
 emissionsPromise.then(function(emissions) {
     var width = 1600;
     var height= 500;
-    
+    console.log("window has height: "+height+" , and width:"+width);
+   // console.log("emissions: "+emissions[0].value)
+    drawPie(emissions,width,height);
     
 }, function(err) {
     console.log("failed to get student data:", err);
