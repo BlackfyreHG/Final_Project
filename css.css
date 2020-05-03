@@ -1,0 +1,31 @@
+.fade {
+    opacity: 0.4;
+}
+
+.arc {
+    transition: opacity 400ms;
+    transition-timing-function: ease-in;
+}
+
+#sector{
+    font-family:inherit;
+    font-size:20;
+    font-weight:bold; 
+}
+.hidden {
+    display: none;
+}
+
+text{
+    font-size:20;
+    font-family:fantasy;
+    transition-timing-function: ease-in;
+}
+
+svg {
+    float: left;
+}
+
+h2{
+    
+}
