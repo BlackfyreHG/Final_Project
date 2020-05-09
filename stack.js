@@ -1,6 +1,5 @@
 var getString = function(data)
 {
-    //console.log(data);
     if(data[1]==data.data.g) //checks if the top of the rectangle is the same as the bottom. 
     {
         string = "grape";
@@ -35,7 +34,7 @@ var drawStack = function(datas,width,height)
     
     //--------------Creates scales and axis--------------
     var xScale = d3.scaleBand()
-                .domain(d3.range(dataset.length))
+                .domain(d3.range(datas.length))
                 .range([margins.left, graph.width])
                 .paddingInner(0.05);
     
@@ -51,12 +50,14 @@ var drawStack = function(datas,width,height)
     setAxesTitles(margins, graph, "svg", xTitle, yTitle)
     
     var stack = d3.stack()
-                  .keys(["a","o","g"])
+                  .keys(["coal","NG","oil","wind","solar","nuclear","hydro"])
                   .order(d3.stackOrderDescending); //puts order as largest to smallest.
     
     var series = stack(datas);
     var colors = d3.scaleOrdinal(d3.schemeDark2);
     
+    console.log(datas);
+    console.log(series);
     //Add a group for each row of data
     var groups = svg.selectAll(".stack")
                 .data(series)
@@ -160,7 +161,6 @@ var changeXticks = function(margins,graph,target,xScale)
     var xticks = target.append("g").classed("xticks",true);
     for (var i = 1; i <=tick_labels.length;i++)
     {
-        console.log(margins.left);
         var x = i*(xScale.bandwidth()+4) + margins.left - xScale.bandwidth()/2;
         var y = graph.height + margins.bottom/1.5;
         xticks.append("text")
@@ -197,7 +197,6 @@ var setAxesTitles = function(margins, graph, target, xTitle, yTitle)
 
 var updateAxes = function(target, xScale, yScale) 
 {
-    console.log("updated");
     var xAxis = d3.axisBottom(xScale);
     var yAxis = d3.axisLeft(yScale);
     
@@ -269,10 +268,10 @@ var  getNewYscale = function(graph,margins,series,id)
 }
 
 
-var emissionsPromise = d3.json("stack_data.json");
+var stackPromise = d3.json("https://blackfyrehg.github.io/Final_Project/stack_data.json");
 //var emissionsPromise = d3.json("emissions_by_sector.json");
-emissionsPromise.then(function(emissions) {
-    drawStack(dataset,800,500);
+stackPromise.then(function(stack_data) {
+    drawStack(stack_data,800,500);
     
 }, function(err) {
     console.log("failed to get student data:", err);

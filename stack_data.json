@@ -1,6 +1,6 @@
-[{"a": 5, "o": 10,"g": 22},
- {"a": 4, "o": 12,"g": 28},
- {"a": 2, "o": 19,"g": 32},
- {"a": 7, "o": 23,"g": 35},
- {"a": 23, "o": 17,"g": 43},
- {"a": 40, "o": 10,"g": 33}]
+[{"coal": 10, "NG": 10,"oil": 10,"wind":10,"solar":10,"nuclear":10,"hydro":10},
+ {"coal": 20, "NG": 20,"oil": 20,"wind":20,"solar":20,"nuclear":20,"hydro":20},
+ {"coal": 30, "NG": 30,"oil": 30,"wind":30,"solar":30,"nuclear":30,"hydro":30},
+ {"coal": 40, "NG": 40,"oil": 40,"wind":40,"solar":40,"nuclear":40,"hydro":40},
+ {"coal": 50, "NG": 50,"oil": 50,"wind":50,"solar":50,"nuclear":50,"hydro":50},
+ {"coal": 60, "NG": 60,"oil": 60,"wind":60,"solar":60,"nuclear":60,"hydro":60}]
