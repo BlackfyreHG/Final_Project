@@ -1,16 +1,31 @@
 var getString = function(data)
 {
-    if(data[1]==data.data.g) //checks if the top of the rectangle is the same as the bottom. 
+    if(data[1]==data.data.hydro) //checks if the top of the rectangle is the same as the bottom. 
     {
-        string = "grape";
+        string = "hydro";
     }
-    else if(data[0]==data.data.g)
+    else if(data[0]==data.data.hydro)
     {
-        string = "orange";
+        string = " nuclear";
     }
-    else 
+    else if(data[1]==data.data.hydro + data.data.nuclear + data.data.solar)
     {
-        string = "apple"
+        string = "solar";
+    }
+    else if(data[0]==data.data.hydro + data.data.nuclear + data.data.solar)
+    {
+        string = "wind";
+    }
+    else if(data[0]==data.data.hydro+data.data.nuclear+data.data.solar+data.data.oil)
+    {
+        string = "oil";
+    }
+    else if(data[0]==data.data.hydro+data.data.nuclear+data.data.solar+data.data.oil+data.data.NG)
+    {
+        string = "Natrual Gas";
+    }
+    else{
+        string = "Coal";
     }
     return string; 
 }
@@ -84,11 +99,13 @@ var drawStack = function(datas,width,height)
                 .attr("x",function(d,i){
                     return xScale(i);
                 })
-                .attr("y",function(d){
-                    return yScale(d[1]);
+                .attr("y",function(d,i){
+                    var local_scale = getNewYscale(graph,margins,series,"#column_"+i);
+                    return local_scale(d[1]);
                 })
-                .attr("height",function(d){
-                    return yScale(d[0])-yScale(d[1]);
+                .attr("height",function(d,i){
+                    var local_scale = getNewYscale(graph,margins,series,"#column_"+i)
+                    return local_scale(d[0])-local_scale(d[1]);
                 })
                 .attr("width",xScale.bandwidth())
                 .attr("id",function(d,i){return "column_"+i;});
@@ -121,12 +138,13 @@ var drawStack = function(datas,width,height)
                 .append("text")
                 .attr("text-anchor", "middle")
                 .attr("x", function(rect, index)
-                {
+                {   
                     return xScale(index)+margins.left-10;
                 })
-                .attr("y", function(data)
+                .attr("y", function(data,index)
                 {
-                    return yScale(data[0]) - (yScale(data[0])-yScale(data[1]))/2;  
+                    var loc_Scale = getNewYscale(graph,margins,series,"#column_"+index);
+                    return loc_Scale(data[0]) - (loc_Scale(data[0])-loc_Scale(data[1]))/2;  
                 })
                 .attr("fill","black")
                 .attr("id", function(d,i){return "label_column_"+i;})
@@ -236,32 +254,32 @@ var  getNewYscale = function(graph,margins,series,id)
             .range([graph.height, margins.top]);
     if(id=="#column_0"){ //checks if the top of the rectangle is the same as the bottom. 
         yScale = d3.scaleLinear()
-            .domain([0, 110])
+            .domain([0, 70])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_1"){
         yScale = d3.scaleLinear()
-            .domain([0, 120])
+            .domain([0, 140])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_2"){
         yScale = d3.scaleLinear()
-            .domain([0, 130])
+            .domain([0, 210])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_3"){
         yScale = d3.scaleLinear()
-            .domain([0, 140])
+            .domain([0, 280])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_4"){
         yScale = d3.scaleLinear()
-            .domain([0, 150])
+            .domain([0, 350])
             .range([graph.height, margins.top]);
     }
     else {
         yScale = d3.scaleLinear()
-            .domain([0, 160])
+            .domain([0, 420])
             .range([graph.height, margins.top]);
     }
     return yScale;
