@@ -1,31 +1,31 @@
 var getString = function(data)
 {
-    if(data[1]==data.data.hydro) //checks if the top of the rectangle is the same as the bottom. 
+    if(data[1]==data.data.nuclear) //checks if the top of the rectangle is the same as the bottom. 
     {
-        string = "hydro";
+        string = "nuclear";
     }
-    else if(data[0]==data.data.hydro)
+    else if(data[0]==data.data.nuclear)
     {
-        string = " nuclear";
+        string = "coal";
     }
-    else if(data[1]==data.data.hydro + data.data.nuclear + data.data.solar)
-    {
-        string = "solar";
-    }
-    else if(data[0]==data.data.hydro + data.data.nuclear + data.data.solar)
-    {
-        string = "wind";
-    }
-    else if(data[0]==data.data.hydro+data.data.nuclear+data.data.solar+data.data.oil)
+    else if(data[1]==data.data.nuclear + data.data.coal + data.data.oil)
     {
         string = "oil";
     }
-    else if(data[0]==data.data.hydro+data.data.nuclear+data.data.solar+data.data.oil+data.data.NG)
+    else if(data[0]==data.data.nuclear + data.data.coal + data.data.oil)
     {
-        string = "Natrual Gas";
+        string = "natrual gas";
+    }
+    else if(data[0]==data.data.nuclear + data.data.coal + data.data.oil+data.data.NG)
+    {
+        string = "hydro";
+    }
+    else if(data[0]==data.data.nuclear + data.data.coal + data.data.oil+data.data.NG+data.data.hydro)
+    {
+        string = "wind";
     }
     else{
-        string = "Coal";
+        string = "solar";
     }
     return string; 
 }
