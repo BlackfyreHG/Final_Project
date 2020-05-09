@@ -65,7 +65,7 @@ var drawStack = function(datas,width,height)
     setAxesTitles(margins, graph, "svg", xTitle, yTitle)
     
     var stack = d3.stack()
-                  .keys(["coal","NG","oil","wind","solar","nuclear","hydro"])
+                  .keys(["solar","wind","hydro","NG","oil","coal","nuclear"])
                   .order(d3.stackOrderDescending); //puts order as largest to smallest.
     
     var series = stack(datas);
@@ -287,7 +287,6 @@ var  getNewYscale = function(graph,margins,series,id)
 
 
 var stackPromise = d3.json("https://blackfyrehg.github.io/Final_Project/stack_data.json");
-//var emissionsPromise = d3.json("emissions_by_sector.json");
 stackPromise.then(function(stack_data) {
     drawStack(stack_data,800,500);
     
