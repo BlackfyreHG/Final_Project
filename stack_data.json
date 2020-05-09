@@ -1,6 +1,6 @@
-[{"solar":10, "wind":10, hydro:10, NG:10, "oil":10, "coal":10, "nuclear":10},
- {"solar":20, "wind":20, hydro:20, NG:20, "oil":20, "coal":20, "nuclear":20},
- {"solar":30, "wind":30, hydro:30, NG:30, "oil":30, "coal":30, "nuclear":30},
- {"solar":40, "wind":40, hydro:40, NG:40, "oil":40, "coal":10, "nuclear":40},
- {"solar":50, "wind":50, hydro:50, NG:50, "oil":50, "coal":10, "nuclear":50},
- {"solar":60, "wind":60, hydro:60, NG:60, "oil":60, "coal":60, "nuclear":60}]
+[{"solar":10, "wind":10, "hydro":10, "NG":10, "oil":10, "coal":10, "nuclear":10},
+ {"solar":20, "wind":20, "hydro":20, "NG":20, "oil":20, "coal":20, "nuclear":20},
+ {"solar":30, "wind":30, "hydro":30, "NG":30, "oil":30, "coal":30, "nuclear":30},
+ {"solar":40, "wind":40, "hydro":40, "NG":40, "oil":40, "coal":10, "nuclear":40},
+ {"solar":50, "wind":50, "hydro":50, "NG":50, "oil":50, "coal":10, "nuclear":50},
+ {"solar":60, "wind":60, "hydro":60, "NG":60, "oil":60, "coal":60, "nuclear":60}]

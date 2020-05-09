@@ -291,5 +291,5 @@ stackPromise.then(function(stack_data) {
     drawStack(stack_data,800,500);
     
 }, function(err) {
-    console.log("failed to get student data:", err);
+    console.log(err);
 });
