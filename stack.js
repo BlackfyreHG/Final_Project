@@ -43,7 +43,7 @@ var drawStack = function(datas,width,height)
         height: screen.height - margins.top - margins.bottom,
     }
     var xTitle = "Comparable Metrics";
-    var yTitle = "this is the initial Y";
+    var yTitle = "Hover on Columns to view data";
     
     var svg = d3.select("body") //svg object drawn too
         .append("svg")
@@ -139,7 +139,7 @@ var drawStack = function(datas,width,height)
             .style("left",xpos+"px")
             .style("top",ypos+"px")
             .select("#energy").text(getString(data));
-        d3.select("#tooltip").select("#size").text(data.data[energy]+" "+findTitle("#column_"+data["column"]),"abrev");
+        d3.select("#tooltip").select("#size").text(suffix(data["column"])+data.data[energy]+" "+findTitle("#column_"+data["column"]),"abrev");
        d3.select("#tooltip").classed("hidden",false);
     })
     .on("mouseout",function(value){
@@ -152,8 +152,7 @@ var drawStack = function(datas,width,height)
         /*d3.select(this).attr("height",function(d,i){
                     var local_scale = getNewYscale(graph,margins,series,"#column_"+i)
                     return 1.1*local_scale(d[0])-local_scale(d[1]);
-        });*/
-        
+        });*/   
     });
     //----------------------------------------------------------------------
     
@@ -169,7 +168,6 @@ var drawStack = function(datas,width,height)
                 })
                 .attr("y", function(data,index)
                 {
-                    console.log(data);
                     var loc_Scale = getNewYscale(graph,margins,series,"#column_"+index);
                     return loc_Scale(data[0]) - (loc_Scale(data[0])-loc_Scale(data[1]))/5;  
                 })
@@ -191,6 +189,13 @@ var bindEnergyToRect = function(row) //appends energy and column data to the d3 
         row[i]["column"] = i;
     }
 }
+
+var suffix = function(id)
+{
+    if(id=="4"){return "10^";}
+    else{return "";}
+}
+
 var createAxes = function(margins,graph,target,xScale,yScale)
 {
     // Setup axes
@@ -205,14 +210,13 @@ var createAxes = function(margins,graph,target,xScale,yScale)
      target.append("g")
         .attr("class","yaxis")
         .attr("transform","translate("+margins.left+","+0+")")
-        .call(yAxis);
-    
+        .call(yAxis); 
 }
 
 //Creates the xlabels for each column on the graph. 
 var changeXticks = function(margins,graph,target,xScale)
 {
-    tick_labels = [["Construction","Cost"],["Operation","Cost"],["Fuel","Cost"],["Current","Production"],["Thermal","Content"],["group6"]];
+    tick_labels = [["Construction","Cost"],["Operation","Cost"],["Fuel","Cost"],["Current","Energy","Production"],["Thermal","Content"],["group6"]];
     d3.select(".xaxis").selectAll(".tick").select("text").text('');
     var xticks = target.append("g").classed("xticks",true);
     for (var i = 1; i <=tick_labels.length;i++)
@@ -227,7 +231,7 @@ var changeXticks = function(margins,graph,target,xScale)
                     .attr("y", y)
                     .attr("fill","black")
                     .text(tick_labels[i-1][j])
-                    .style("font-size",20);
+                    .style("font-size",15);
         }
     }
 }
@@ -242,10 +246,10 @@ var setAxesTitles = function(margins, graph, target, xTitle, yTitle)
         .text(xTitle)
         .attr("id","labelx")
         .attr("text-anchor", "middle")
-        .attr("x", margins.left + (graph.width / 2)-20)
+        .attr("x", margins.left + (graph.width / 3))
         .attr("y", graph.height + margins.bottom+20);
     labels.append("g")
-        .attr("transform","translate(60," + 
+        .attr("transform","translate(100," + 
               (margins.top + (graph.height / 2)) + ")")
         .append("text")
         .text(yTitle)
@@ -267,7 +271,7 @@ var updateAxes = function(target, xScale, yScale)
     
     d3.select(".yaxis")
         .transition()
-        .duration(1000)
+        .duration(700)
         .call(yAxis)
     
     d3.select(target)
@@ -285,7 +289,7 @@ var findTitle = function(id,length)
         else if(id=="#column_1"){title = "Millions of Dollars per Kilo-Watt-hour";}
         else if(id=="#column_2"){title = "Dollars per Kilo-Watt-hour";}
         else if(id=="#column_3"){title = "Gigia-Watt-Hours";}
-        else if(id=="#column_4"){title = "Log10 scale Btu (British Thermal Units)";}
+        else if(id=="#column_4"){title = "Btu (British Thermal Units) log 10 scale";}
         else {title = "henry si cool";}
     }
     else{
@@ -336,7 +340,7 @@ var  getNewYscale = function(graph,margins,series,id)
     }
     else if(id=="#column_5"){
         yScale = d3.scaleLinear()
-            .domain([0, 420])
+            .domain([0, 501])
             .range([graph.height, margins.top]);
     }
     else{

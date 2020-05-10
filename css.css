@@ -36,8 +36,11 @@
  
 }
 
-text{
-    font-size:15;
+.xaxis text{
+    font-size:8;
+}
+text {
+    font-size:14;
     font-family:fantasy;
     transition-timing-function: ease-in;
 }
@@ -46,10 +49,14 @@ svg {
     float: left;
 }
 #labelx{
-    font-size:25;
+    font-size:20;
 }
 #labely{
     font-size:25;
+}
+
+.yaxis .tick text{
+    font-size:16;
 }
 
 .selected {
