@@ -118,7 +118,6 @@ var drawStack = function(datas,width,height)
     
     //---------------Changing rect labels and Axis titles----------------
     rects.on("mouseover",function(data){
-        var colors = d3.scaleOrdinal(d3.schemeDark2);
         var energy = data.energy;
         var column_id = "#"+this.id;
         var label_id = "#label_"+this.id
@@ -129,11 +128,12 @@ var drawStack = function(datas,width,height)
         d3.selectAll("rect").classed("fade",true);
         d3.selectAll(column_id).classed("fade",false);
         
+        d3.select(this).classed("selected",true);
         //d3.selectAll(label_id).classed("hidden",false);
         
-         //Tooltip
-        var xpos = parseFloat(d3.select(this).attr("x"))+xScale.bandwidth()/2+50;
-        var ypos = parseFloat(d3.select(this).attr("y"))+30;
+        //Tooltip
+        var xpos = parseFloat(d3.select(this).attr("x"))+xScale.bandwidth()/2+55;
+        var ypos = parseFloat(d3.select(this).attr("y"));
         d3.select("#tooltip")
             .attr("id","tooltip")
             .style("left",xpos+"px")
@@ -148,6 +148,7 @@ var drawStack = function(datas,width,height)
         setAxesTitles(margins, graph, "svg", xTitle, yTitle);
         d3.selectAll("rect").classed("fade",false);
         d3.select("#tooltip").classed("hidden",true);
+        d3.select(this).classed("selected",false);
         /*d3.select(this).attr("height",function(d,i){
                     var local_scale = getNewYscale(graph,margins,series,"#column_"+i)
                     return 1.1*local_scale(d[0])-local_scale(d[1]);
@@ -170,7 +171,7 @@ var drawStack = function(datas,width,height)
                 {
                     console.log(data);
                     var loc_Scale = getNewYscale(graph,margins,series,"#column_"+index);
-                    return loc_Scale(data[0]) - (loc_Scale(data[0])-loc_Scale(data[1]))/4;  
+                    return loc_Scale(data[0]) - (loc_Scale(data[0])-loc_Scale(data[1]))/5;  
                 })
                 .attr("fill","black")
                 .attr("id", function(d,i){
@@ -284,7 +285,7 @@ var findTitle = function(id,length)
         else if(id=="#column_1"){title = "Millions of Dollars per Kilo-Watt-hour";}
         else if(id=="#column_2"){title = "Dollars per Kilo-Watt-hour";}
         else if(id=="#column_3"){title = "Gigia-Watt-Hours";}
-        else if(id=="#column_4"){title = "Btu (British Thermal Units)";}
+        else if(id=="#column_4"){title = "Log10 scale Btu (British Thermal Units)";}
         else {title = "henry si cool";}
     }
     else{
@@ -330,7 +331,7 @@ var  getNewYscale = function(graph,margins,series,id)
     }
     else if(id=="#column_4"){
         yScale = d3.scaleLinear()
-            .domain([0, 77093026])
+            .domain([0, 20.43])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_5"){

@@ -32,6 +32,9 @@
 .hidden {
     display: none;
 }
+.selected {
+ 
+}
 
 text{
     font-size:15;
@@ -46,7 +49,11 @@ svg {
     font-size:25;
 }
 #labely{
-    font-size:30;
+    font-size:25;
+}
+
+.selected {
+    filter: brightness(75%);
 }
 
 h2{
