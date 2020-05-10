@@ -1,4 +1,4 @@
-[{"solar":9, "wind":6, "hydro":7, "NG":3, "oil":2, "coal":7, "nuclear":10},
+[{"solar":10, "wind":20, "hydro":30, "NG":40, "oil":50, "coal":60, "nuclear":70},
 {"solar":0, "wind":0, "hydro":10.65, "NG":35.86, "oil":35.86, "coal":35.86, "nuclear":23.86},
 {"solar":0, "wind":0, "hydro":0, "NG":0.0294, "oil":0.0371, "coal":0.0294, "nuclear":0.0077},
 {"solar":87183, "wind":277918, "hydro":315619, "NG":1513414, "oil":38825, "coal":1254542, "nuclear":841329},

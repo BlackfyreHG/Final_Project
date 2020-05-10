@@ -105,7 +105,7 @@ var drawStack = function(datas,width,height)
                 .attr("class","stack")
                 .style("fill",function(d,i){
                     return colors(i);
-                });/*
+                })
                 .on("mouseover",function(column){
                     d3.selectAll(".stack").classed("fade",true);
                     d3.select(this).classed("fade",false);
@@ -113,7 +113,7 @@ var drawStack = function(datas,width,height)
                 })
                 .on("mouseout",function(value){
                     d3.selectAll(".stack").classed("fade",false);
-                });*/
+                });
     
     //Add a rectangle for each data value
     var rects = groups.selectAll("rect")
@@ -280,44 +280,40 @@ var  getNewYscale = function(graph,margins,series,id)
             .range([graph.height, margins.top]);
     if(id=="#column_0"){ //checks if the top of the rectangle is the same as the bottom. 
         var column = series[0];
-        var sum = 18458;//column.data.nuclear+column.data.oil+column.data.NG+column.data.hydro+column.data.wind+column.data.solar;
+        //column.data.nuclear+column.data.oil+column.data.NG+column.data.hydro+column.data.wind+column.data.solar;
         yScale = d3.scaleLinear()
-            .domain([0, sum])
+            //.domain([0, 18458])
+            .domain([0,44])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_1"){
         var column = series[1];
-        var sum = 142.09;
         yScale = d3.scaleLinear()
-            .domain([0, sum])
+            .domain([0, 142.09])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_2"){
         var column = series[2];
-        var sum = 0.1036;
         yScale = d3.scaleLinear()
-            .domain([0, sum])
+            .domain([0, 0.1036])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_3"){
         var column = series[3];
-        var sum = 4328830;
         yScale = d3.scaleLinear()
-            .domain([0, sum])
+            .domain([0, 4328830])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_4"){
         var column = series[4];
-        var sum = 4328830;
         yScale = d3.scaleLinear()
-            .domain([0, sum])
+            .domain([0, 35000000515])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_5"){
         var column = series[5];
-        var sum = 35000000515;
         yScale = d3.scaleLinear()
-            .domain([0, sum])
+            .domain([0, 80])
             .range([graph.height, margins.top]);
     }
     else{
