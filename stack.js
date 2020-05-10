@@ -1,6 +1,30 @@
 var getString = function(data)
 {
-    if(data[1]==data.data.nuclear) //checks if the top of the rectangle is the same as the bottom. 
+    var deltas = [data.data.nuclear, data.data.coal, data.data.oil, data.data.NG, data.data.hydro, data.data.wind, data.data.solar];
+    var names = ["nuclear","coal","oil","natural gas","hydro","wind","solar"];
+    var string = "henry";
+    
+    for (var i=0; i<deltas.length;i++)
+    {
+        if(deltas[i]!=0)   
+        {
+            var test = 0;
+            for(var j = 0;j<i;j++)
+            {
+                test = test+deltas[j];
+            }
+            if(data[1]==test)
+            {
+                string = names[i];       
+            }
+        }
+        else{
+            string = names[i-1];
+            //console.log(deltas[i]);
+            //console.log(i);
+        }
+    }
+    /*if(data[1]==data.data.nuclear) //checks if the top of the rectangle is the same as the bottom. 
     {
         string = "nuclear";
     }
@@ -16,7 +40,7 @@ var getString = function(data)
     {
         string = "natrual gas";
     }
-    else if(data[0]==data.data.nuclear + data.data.coal + data.data.oil+data.data.NG)
+    else if(data[0]==data.data.nuclear +data.data.coal +data.data.oil+data.data.NG)
     {
         string = "hydro";
     }
@@ -26,7 +50,7 @@ var getString = function(data)
     }
     else{
         string = "solar";
-    }
+    }*/
     return string; 
 }
 
@@ -62,7 +86,7 @@ var drawStack = function(datas,width,height)
     //---------------------------------------------------
     
     //gives axis labels. 
-    setAxesTitles(margins, graph, "svg", xTitle, yTitle)
+    setAxesTitles(margins, graph, "svg", xTitle, yTitle);
     
     var stack = d3.stack()
                   .keys(["solar","wind","hydro","NG","oil","coal","nuclear"])
@@ -217,7 +241,7 @@ var setAxesTitles = function(margins, graph, target, xTitle, yTitle)
 
 var updateAxes = function(target, xScale, yScale) 
 {
-    var xAxis = d3.axisBottom(xScale);
+    //var xAxis = d3.axisBottom(xScale);
     var yAxis = d3.axisLeft(yScale);
     
     /*d3.select(".x-axis")
@@ -256,7 +280,7 @@ var  getNewYscale = function(graph,margins,series,id)
             .range([graph.height, margins.top]);
     if(id=="#column_0"){ //checks if the top of the rectangle is the same as the bottom. 
         var column = series[0];
-        var sum = 18,458;//column.data.nuclear+column.data.oil+column.data.NG+column.data.hydro+column.data.wind+column.data.solar;
+        var sum = 18458;//column.data.nuclear+column.data.oil+column.data.NG+column.data.hydro+column.data.wind+column.data.solar;
         yScale = d3.scaleLinear()
             .domain([0, sum])
             .range([graph.height, margins.top]);
@@ -289,11 +313,16 @@ var  getNewYscale = function(graph,margins,series,id)
             .domain([0, sum])
             .range([graph.height, margins.top]);
     }
-    else {
+    else if(id=="#column_5"){
         var column = series[5];
         var sum = 35000000515;
         yScale = d3.scaleLinear()
             .domain([0, sum])
+            .range([graph.height, margins.top]);
+    }
+    else{
+        var yScale = d3.scaleLinear()
+            .domain([0, 420])
             .range([graph.height, margins.top]);
     }
     return yScale;
