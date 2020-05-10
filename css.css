@@ -2,6 +2,23 @@
     opacity: 0.4;
 }
 
+#tooltip {
+    position: absolute;
+    right: 20px;
+    padding: 10px;
+    width: 150px;
+    background-color: #F0FFF0;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+    -moz-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+}
+#tooltip #energy {
+    font-weight:bold;
+    font-size:20;
+}
 .arc {
     transition: opacity 400ms;
     transition-timing-function: ease-in;
@@ -17,13 +34,19 @@
 }
 
 text{
-    font-size:20;
+    font-size:15;
     font-family:fantasy;
     transition-timing-function: ease-in;
 }
 
 svg {
     float: left;
+}
+#labelx{
+    font-size:25;
+}
+#labely{
+    font-size:30;
 }
 
 h2{
