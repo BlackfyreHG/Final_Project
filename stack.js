@@ -8,7 +8,7 @@ var getString = function(data)
     {
         string = "coal";
     }
-    else if(data[1]==data.data.nuclear + data.data.coal + data.data.oil)
+    else if(data[1]==data.data.nuclear+data.data.coal+data.data.oil)
     {
         string = "oil";
     }
@@ -174,20 +174,22 @@ var createAxes = function(margins,graph,target,xScale,yScale)
 //Creates the xlabels for each column on the graph. 
 var changeXticks = function(margins,graph,target,xScale)
 {
-    tick_labels = ["group1","group2","gorup3","group4","group5","group6"];
+    tick_labels = [["Construction","Cost"],["Operation","Cost"],["Fuel","Cost"],["Current","Production"],["Thermal","Content"],["group6"]];
     d3.select(".xaxis").selectAll(".tick").select("text").text('');
     var xticks = target.append("g").classed("xticks",true);
     for (var i = 1; i <=tick_labels.length;i++)
     {
         var x = i*(xScale.bandwidth()+4) + margins.left - xScale.bandwidth()/2;
-        var y = graph.height + margins.bottom/1.5;
-        xticks.append("text")
-        .attr("text-anchor", "middle")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("fill","black")
-                .text(tick_labels[i-1]);
-        //.attr("transform","rotate(45)");
+        for(var j = 0; j<tick_labels[i-1].length; j++)
+        {
+            var y = graph.height + 20 + j*12;
+            xticks.append("text")
+            .attr("text-anchor", "middle")
+                    .attr("x", x)
+                    .attr("y", y)
+                    .attr("fill","black")
+                    .text(tick_labels[i-1][j]);
+        }
     }
 }
 
@@ -202,7 +204,7 @@ var setAxesTitles = function(margins, graph, target, xTitle, yTitle)
         .classed("label", true)
         .attr("text-anchor", "middle")
         .attr("x", margins.left + (graph.width / 2))
-        .attr("y", graph.height + margins.bottom+20);
+        .attr("y", graph.height + margins.bottom+25);
     labels.append("g")
         .attr("transform","translate(20," + 
               (margins.top + (graph.height / 2)) + ")")
@@ -237,13 +239,13 @@ var findTitle = function(id)
 {
     var title= "Error";
     if(id=="#column_0"){ //checks if the top of the rectangle is the same as the bottom. 
-        title = "zeroes";
+        title = "Dollars per Kilo-Watt";
     }
-    else if(id=="#column_1"){title = "firsts";}
-    else if(id=="#column_2"){title = "seconds";}
-    else if(id=="#column_3"){title = "thirds";}
-    else if(id=="#column_4"){title = "fourths";}
-    else {title = "fifths";}
+    else if(id=="#column_1"){title = "Millions of Dollars per Kilo-Watt-hour";}
+    else if(id=="#column_2"){title = "Dollars per Kilo-Watt-hour";}
+    else if(id=="#column_3"){title = "Gigia-Watt-Hours";}
+    else if(id=="#column_4"){title = "Btu (British Thermal Units)";}
+    else {title = "henry si cool";}
     return title; 
 }
 
@@ -253,33 +255,45 @@ var  getNewYscale = function(graph,margins,series,id)
             .domain([0, 80])
             .range([graph.height, margins.top]);
     if(id=="#column_0"){ //checks if the top of the rectangle is the same as the bottom. 
+        var column = series[0];
+        var sum = 18,458;//column.data.nuclear+column.data.oil+column.data.NG+column.data.hydro+column.data.wind+column.data.solar;
         yScale = d3.scaleLinear()
-            .domain([0, 70])
+            .domain([0, sum])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_1"){
+        var column = series[1];
+        var sum = 142.09;
         yScale = d3.scaleLinear()
-            .domain([0, 140])
+            .domain([0, sum])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_2"){
+        var column = series[2];
+        var sum = 0.1036;
         yScale = d3.scaleLinear()
-            .domain([0, 210])
+            .domain([0, sum])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_3"){
+        var column = series[3];
+        var sum = 4328830;
         yScale = d3.scaleLinear()
-            .domain([0, 280])
+            .domain([0, sum])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_4"){
+        var column = series[4];
+        var sum = 4328830;
         yScale = d3.scaleLinear()
-            .domain([0, 350])
+            .domain([0, sum])
             .range([graph.height, margins.top]);
     }
     else {
+        var column = series[5];
+        var sum = 35000000515;
         yScale = d3.scaleLinear()
-            .domain([0, 420])
+            .domain([0, sum])
             .range([graph.height, margins.top]);
     }
     return yScale;
@@ -288,7 +302,7 @@ var  getNewYscale = function(graph,margins,series,id)
 //d3.json("https://blackfyrehg.github.io/Final_Project/emissions_by_sector.json");
 var stackPromise = d3.json("https://blackfyrehg.github.io/Final_Project/stack_data.json");
 stackPromise.then(function(stack_data) {
-    drawStack(stack_data,800,500);
+    drawStack(stack_data,900,500);
     
 }, function(err) {
     console.log(err);
