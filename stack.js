@@ -1,4 +1,4 @@
-var getString = function(data)
+/*var getString = function(data)
 {
     var deltas = [data.data.nuclear, data.data.coal, data.data.oil, data.data.NG, data.data.hydro, data.data.wind, data.data.solar];
     var names = ["nuclear","coal","oil","natural gas","hydro","wind","solar"];
@@ -50,14 +50,16 @@ var getString = function(data)
     }
     else{
         string = "solar";
-    }*/
-    return string; 
-}
+    }
+    return string;
+}  */  //Delete this unless useful again.
+
+    
 
 var drawStack = function(datas,width,height)
 {
     var screen = {width:width, height:height};
-    var margins = {top:30, bottom:30, left:70, right:40};
+    var margins = {top:30, bottom:30, left:200, right:40};
     var graph = 
     {
         width: screen.width - margins.left - margins.right,
@@ -95,14 +97,16 @@ var drawStack = function(datas,width,height)
     var series = stack(datas);
     var colors = d3.scaleOrdinal(d3.schemeDark2);
     
-    console.log(datas);
-    console.log(series);
+     console.log(datas);
+     console.log(series);
     //Add a group for each row of data
     var groups = svg.selectAll(".stack")
                 .data(series)
                 .enter()
                 .append("g")
-                .attr("class","stack")
+                .attr("class",function(row){
+                    bindEnergyToRect(row); //Buts the same data class into each rectangles data as well
+                    return row.key;})
                 .style("fill",function(d,i){
                     return colors(i);
                 })
@@ -121,7 +125,7 @@ var drawStack = function(datas,width,height)
                 .enter()
                 .append("rect")
                 .attr("x",function(d,i){
-                    return xScale(i);
+                    return xScale(i)+1;
                 })
                 .attr("y",function(d,i){
                     var local_scale = getNewYscale(graph,margins,series,"#column_"+i);
@@ -163,7 +167,7 @@ var drawStack = function(datas,width,height)
                 .attr("text-anchor", "middle")
                 .attr("x", function(rect, index)
                 {   
-                    return xScale(index)+margins.left-10;
+                    return xScale(index)+xScale.bandwidth()/2;
                 })
                 .attr("y", function(data,index)
                 {
@@ -173,10 +177,16 @@ var drawStack = function(datas,width,height)
                 .attr("fill","black")
                 .attr("id", function(d,i){return "label_column_"+i;})
                 .classed("rect_label",true)
-                .text(function(data){return getString(data);})
+                .text(function(data){return data.energy;}) //currently does nothing. 
                 .classed("hidden",true);
 }
-
+var bindEnergyToRect = function(row)
+{
+    for(var i = 0; i<row.length;i++)
+    {
+        row[i]["energy"] = row.key;
+    }
+}
 var createAxes = function(margins,graph,target,xScale,yScale)
 {
     // Setup axes
@@ -282,38 +292,33 @@ var  getNewYscale = function(graph,margins,series,id)
         var column = series[0];
         //column.data.nuclear+column.data.oil+column.data.NG+column.data.hydro+column.data.wind+column.data.solar;
         yScale = d3.scaleLinear()
-            //.domain([0, 18458])
-            .domain([0,44])
+            .domain([0, 18458])
+            //.domain([0,280])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_1"){
-        var column = series[1];
         yScale = d3.scaleLinear()
             .domain([0, 142.09])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_2"){
-        var column = series[2];
         yScale = d3.scaleLinear()
             .domain([0, 0.1036])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_3"){
-        var column = series[3];
         yScale = d3.scaleLinear()
             .domain([0, 4328830])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_4"){
-        var column = series[4];
         yScale = d3.scaleLinear()
             .domain([0, 35000000515])
             .range([graph.height, margins.top]);
     }
     else if(id=="#column_5"){
-        var column = series[5];
         yScale = d3.scaleLinear()
-            .domain([0, 80])
+            .domain([0, 420])
             .range([graph.height, margins.top]);
     }
     else{
@@ -327,7 +332,7 @@ var  getNewYscale = function(graph,margins,series,id)
 //d3.json("https://blackfyrehg.github.io/Final_Project/emissions_by_sector.json");
 var stackPromise = d3.json("https://blackfyrehg.github.io/Final_Project/stack_data.json");
 stackPromise.then(function(stack_data) {
-    drawStack(stack_data,900,500);
+    drawStack(stack_data,1200,500);
     
 }, function(err) {
     console.log(err);
