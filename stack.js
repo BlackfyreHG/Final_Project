@@ -45,7 +45,7 @@ var drawStack = function(datas,width,height)
     var xTitle = "Comparable Metrics";
     var yTitle = "Hover on Columns to view data";
     
-    var svg = d3.select("body") //svg object drawn too
+    var svg = d3.select("body").select("#visual") //svg object drawn too
         .append("svg")
             .attr("width",width)
             .attr("height",height);
@@ -59,7 +59,6 @@ var drawStack = function(datas,width,height)
     var yScale = d3.scaleLinear()
                 .domain([0,85])
                 .range([graph.height, margins.bottom]);
-    
     createAxes(margins,graph,svg,xScale,yScale);
     changeXticks(margins,graph,svg,xScale);
     //---------------------------------------------------
@@ -73,7 +72,7 @@ var drawStack = function(datas,width,height)
     
     var series = stack(datas);
     var colors = d3.scaleOrdinal(d3.schemeDark2);
-    var colors2 = ["#FFD700","#FFF8DC","#4169E1","#DEB887","#2F4F4F","#696969","#6B8E23"];
+    var colors2 = ["#FFD700","#FAEBD7","#4169E1","#DEB887","#2F4F4F","#696969","#6B8E23"]; //custom color set. 
     
      console.log(datas);
      console.log(series);
@@ -83,19 +82,11 @@ var drawStack = function(datas,width,height)
                 .enter()
                 .append("g")
                 .attr("class",function(row){
-                    bindEnergyToRect(row); //Buts the same data class into each rectangles data as well
+                    bindEnergyToRect(row); //Puts the same data class into each rectangles data as well
                     return row.key;})
                 .style("fill",function(d,i){
                     return colors2[i];
-                });/*
-                .on("mouseover",function(column){
-                    d3.selectAll(".stack").classed("fade",true);
-                    d3.select(this).classed("fade",false);
-
-                })
-                .on("mouseout",function(value){
-                    d3.selectAll(".stack").classed("fade",false);
-                });*/
+                });
     
     //Add a rectangle for each data value
     var rects = groups.selectAll("rect")
@@ -132,14 +123,14 @@ var drawStack = function(datas,width,height)
         //d3.selectAll(label_id).classed("hidden",false);
         
         //Tooltip
-        var xpos = parseFloat(d3.select(this).attr("x"))+xScale.bandwidth()/2+55;
-        var ypos = parseFloat(d3.select(this).attr("y"));
+        var xpos = parseFloat(d3.select(this).attr("x"))+xScale.bandwidth()/2+85;
+        var ypos = parseFloat(d3.select(this).attr("y"))+10+276;
         d3.select("#tooltip")
             .attr("id","tooltip")
             .style("left",xpos+"px")
             .style("top",ypos+"px")
             .select("#energy").text(getString(data));
-        d3.select("#tooltip").select("#size").text(suffix(data["column"])+data.data[energy]+" "+findTitle("#column_"+data["column"]),"abrev");
+        d3.select("#tooltip").select("#size").text(suffix(data["column"])+(data.data[energy]-adjustValue(data["column"]))+" "+findTitle("#column_"+data["column"]),"abrev");
        d3.select("#tooltip").classed("hidden",false);
     })
     .on("mouseout",function(value){
@@ -196,6 +187,17 @@ var suffix = function(id)
     else{return "";}
 }
 
+var adjustValue = function(id) //Adjusts Accidents statistics to actual values. 
+{
+    if(id=="5")
+    {
+        return 10;
+    }
+    else {
+        return 0;
+    }
+}
+
 var createAxes = function(margins,graph,target,xScale,yScale)
 {
     // Setup axes
@@ -211,12 +213,14 @@ var createAxes = function(margins,graph,target,xScale,yScale)
         .attr("class","yaxis")
         .attr("transform","translate("+margins.left+","+0+")")
         .call(yAxis); 
+    
+    d3.select(".yaxis").selectAll(".tick").select("text").text('');
 }
 
 //Creates the xlabels for each column on the graph. 
 var changeXticks = function(margins,graph,target,xScale)
 {
-    tick_labels = [["Construction","Cost"],["Operation","Cost"],["Fuel","Cost"],["Current","Energy","Production"],["Thermal","Content"],["group6"]];
+    tick_labels = [["Average","Construction","Cost"],["Average","Operation","Cost"],["Avg. Fuel","Cost"],["Current Energy","Production","per year"],["Thermal","Content"],["Accidents","1970-2008","5 or more deaths"]];
     d3.select(".xaxis").selectAll(".tick").select("text").text('');
     var xticks = target.append("g").classed("xticks",true);
     for (var i = 1; i <=tick_labels.length;i++)
@@ -224,14 +228,17 @@ var changeXticks = function(margins,graph,target,xScale)
         var x = i*(xScale.bandwidth()+4) + margins.left - xScale.bandwidth()/2;
         for(var j = 0; j<tick_labels[i-1].length; j++)
         {
-            var y = graph.height + 20 + j*12;
+            var y = graph.height + 20 + j*12.1;
             xticks.append("text")
             .attr("text-anchor", "middle")
                     .attr("x", x)
                     .attr("y", y)
                     .attr("fill","black")
                     .text(tick_labels[i-1][j])
-                    .style("font-size",15);
+                    .attr("id","xticks");
+            /*
+                    .style("font-size",15)
+                    .style("font-family","monospace");*/
         }
     }
 }
@@ -290,7 +297,7 @@ var findTitle = function(id,length)
         else if(id=="#column_2"){title = "Dollars per Kilo-Watt-hour";}
         else if(id=="#column_3"){title = "Gigia-Watt-Hours";}
         else if(id=="#column_4"){title = "Btu (British Thermal Units) log 10 scale";}
-        else {title = "henry si cool";}
+        else {title = "Number of Accidents";}
     }
     else{
         if(id=="#column_0"){ //checks if the top of the rectangle is the same as the bottom. 
@@ -300,7 +307,7 @@ var findTitle = function(id,length)
         else if(id=="#column_2"){title = "$/KWh";}
         else if(id=="#column_3"){title = "GWh";}
         else if(id=="#column_4"){title = "Btu";}
-        else {title = "henry si cool";}
+        else {title = "Accidents";}
     }
     return title; 
 }

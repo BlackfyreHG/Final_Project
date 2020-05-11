@@ -2,6 +2,37 @@
     opacity: 0.4;
 }
 
+body{
+    background-color:#E6E6FA;
+}
+svg {
+    border-style:double;
+    border-color:green;
+    border-width:10px;
+    margin: 20px;
+    background-color:white;
+}
+
+#title{
+    text-align:center;
+    margin:50px;
+    border-style:groove;
+    background-color:lightgrey;
+}
+
+h1{
+    font-size:45;
+    font-family:monospace;
+    color:green;
+    margin:50px;
+    border-style:dotted;
+}
+#title div{
+    text-align:center;
+    margin:20px;
+    border-style:groove;
+}
+
 #tooltip {
     position: absolute;
     right: 20px;
@@ -36,8 +67,9 @@
  
 }
 
-.xaxis text{
-    font-size:8;
+#xticks {
+    font-size:15;
+    font-family:serif;
 }
 text {
     font-size:14;
@@ -50,6 +82,7 @@ svg {
 }
 #labelx{
     font-size:20;
+
 }
 #labely{
     font-size:25;
@@ -63,6 +96,3 @@ svg {
     filter: brightness(75%);
 }
 
-h2{
-    
-}
