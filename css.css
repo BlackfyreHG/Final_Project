@@ -45,6 +45,10 @@ h1{
     -webkit-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
     -moz-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
     box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+    pointer-events:none;
+}
+.rect_label{
+    pointer-events:none;
 }
 #tooltip #energy {
     font-weight:bold;
